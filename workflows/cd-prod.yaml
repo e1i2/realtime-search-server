@@ -1,0 +1,20 @@
+name: backend-CICD
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    uses: e1i2/workflows/.github/workflows/gradle-build.yaml@main
+    secrets: inherit
+  
+  update-argocd-metadata:
+    uses: e1i2/workflows/.github/workflows/argocd-deploy.yaml@main
+    needs: build
+    secrets: inherit
+    with:
+      profile: live
+      port: 8080
+      name: realtime-server
