@@ -28,12 +28,18 @@ dependencies {
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+	// logger
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+
 	// jsoup
 	implementation("org.jsoup:jsoup:1.15.4")
 
 	// kotest
 	testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
 	testImplementation("io.kotest:kotest-assertions-core:5.5.5")
+
+	// mockk
+	testImplementation("io.mockk:mockk:1.13.4")
 
 	// test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
