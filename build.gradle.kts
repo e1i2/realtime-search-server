@@ -45,6 +45,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-webtestclient")
+
+	runtimeOnly("com.github.jasync-sql:jasync-r2dbc-mysql:2.1.23")
 }
 
 tasks.withType<KotlinCompile> {
