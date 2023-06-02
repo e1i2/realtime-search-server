@@ -17,6 +17,8 @@ repositories {
 }
 
 val snippetsDir = file("build/generated-snippets")
+val deployVersion = "app"
+version = "$deployVersion-SNAPSHOT"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -67,4 +69,8 @@ tasks.test {
 tasks.asciidoctor {
 	inputs.dir(snippetsDir)
 	dependsOn(tasks.test)
+}
+
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+	archiveFileName.set("$deployVersion.jar")
 }
