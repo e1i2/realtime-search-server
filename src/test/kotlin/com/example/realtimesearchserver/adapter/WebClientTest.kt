@@ -20,7 +20,7 @@ class WebClientTest: DescribeSpec({
     private val client = mockk<WebClient>()
 
     init {
-        describe("WebClient mockking 테스트") {
+        it("WebClient mockking 테스트") {
             val value = "hello"
             every { response.bodyToMono<String>() } returns Mono.just(value)
             every { spec.retrieve() } returns response
