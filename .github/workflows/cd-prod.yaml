@@ -17,4 +17,4 @@ jobs:
     with:
       profile: live
       port: 8080
-      name: realtime-server
+      name: realtime-search-server
