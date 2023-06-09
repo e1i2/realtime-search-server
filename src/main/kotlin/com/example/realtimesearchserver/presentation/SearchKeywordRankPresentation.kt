@@ -2,6 +2,7 @@ package com.example.realtimesearchserver.presentation
 
 import com.example.realtimesearchserver.service.SearchKeywordRankingService
 import java.net.URI
+import java.time.LocalDateTime
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpResponse
@@ -17,7 +18,7 @@ class SearchKeywordRankPresentation(
     @GetMapping("/api-public/realtime-search-keyword/ranking")
     suspend fun getKeywordRankings(): List<KeywordRankingResponse> {
         return searchKeywordRankingService.getKeywordRankings()
-            .map { KeywordRankingResponse(it.id, it.ranking, it.keyword) }
+            .map { KeywordRankingResponse(it.id, it.ranking, it.keyword, it.createdAt) }
     }
 
     @GetMapping("/api-public/realtime-search-keyword/redirect/naver")
@@ -39,5 +40,6 @@ class SearchKeywordRankPresentation(
 data class KeywordRankingResponse(
     val id: Long,
     val rank: Int,
-    val keyword: String
+    val keyword: String,
+    val createdAt: LocalDateTime
 )
