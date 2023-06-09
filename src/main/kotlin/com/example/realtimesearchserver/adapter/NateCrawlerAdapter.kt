@@ -1,6 +1,6 @@
 package com.example.realtimesearchserver.adapter
 
-import com.example.realtimesearchserver.entity.RankedKeyword
+import com.example.realtimesearchserver.entity.KeywordRanking
 import com.example.realtimesearchserver.utils.removeSpecials
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -17,7 +17,7 @@ private val logger = KotlinLogging.logger {  }
 class NateCrawlerAdapter(
     private val webClient: WebClient
 ) {
-    suspend fun crawl(): List<RankedKeyword> {
+    suspend fun crawl(): List<KeywordRanking> {
         val response = webClient.get()
             .uri {
                 it.scheme("https")
@@ -35,6 +35,6 @@ class NateCrawlerAdapter(
 
         val nateRank = jacksonObjectMapper().readValue<List<List<String>>>(encoded)
         return nateRank
-            .map { RankedKeyword(it[0].toInt(), it[1].removeSpecials()) }
+            .map { KeywordRanking(it[0].toInt(), it[1].removeSpecials()) }
     }
 }
