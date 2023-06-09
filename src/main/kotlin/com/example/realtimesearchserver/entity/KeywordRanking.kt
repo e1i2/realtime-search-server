@@ -5,17 +5,18 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 
-@Table("ranked_keyword")
-data class RankedKeywordEntity(
+@Table("keyword_ranking")
+data class KeywordRankingEntity(
     @Id
     val id: Long = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    @Column("`rank`")
-    val rank: Int,
-    val keyword: String
+    @Column("`ranking`")
+    val ranking: Int,
+    val keyword: String,
+    val type: String
 )
 
-data class RankedKeyword(
-    val rank: Int,
+data class KeywordRanking(
+    val ranking: Int,
     val keyword: String
 )

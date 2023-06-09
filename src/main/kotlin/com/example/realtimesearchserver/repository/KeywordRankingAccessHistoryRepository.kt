@@ -1,0 +1,8 @@
+package com.example.realtimesearchserver.repository
+
+import com.example.realtimesearchserver.entity.KeywordRankingAccessHistoryEntity
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface KeywordRankingAccessHistoryRepository: CoroutineCrudRepository<KeywordRankingAccessHistoryEntity, Long>

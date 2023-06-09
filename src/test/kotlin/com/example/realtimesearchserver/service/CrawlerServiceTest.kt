@@ -1,15 +1,11 @@
 package com.example.realtimesearchserver.service
 
 import com.example.realtimesearchserver.adapter.NateCrawlerAdapter
-import com.example.realtimesearchserver.entity.RankedKeyword
-import com.example.realtimesearchserver.entity.RankedKeywordEntity
-import com.example.realtimesearchserver.repository.RankedKeywordAccessHistoryRepository
-import com.example.realtimesearchserver.repository.RankedKeywordRepository
-import io.kotest.core.Tuple2
-import io.kotest.core.spec.BeforeTest
+import com.example.realtimesearchserver.entity.KeywordRanking
+import com.example.realtimesearchserver.entity.KeywordRankingEntity
+import com.example.realtimesearchserver.repository.KeywordRankingAccessHistoryRepository
+import com.example.realtimesearchserver.repository.KeywordRankingRepository
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.core.test.TestCase
-import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -24,31 +20,31 @@ class CrawlerServiceTest: DescribeSpec({
     }
 }) {
     private val crawlerAdapter = mockk<NateCrawlerAdapter>()
-    private val rankedKeywordRepository = mockk<RankedKeywordRepository>()
-    private val rankedKeywordAccessHistoryRepository = mockk<RankedKeywordAccessHistoryRepository>()
-    private val service = SearchKeywordRankService(crawlerAdapter, rankedKeywordRepository, rankedKeywordAccessHistoryRepository)
+    private val keywordRankingRepository = mockk<KeywordRankingRepository>()
+    private val keywordRankingAccessHistoryRepository = mockk<KeywordRankingAccessHistoryRepository>()
+    private val service = SearchKeywordRankingService(crawlerAdapter, keywordRankingRepository, keywordRankingAccessHistoryRepository)
 
     init {
         it("Crawler service 호출 테스트") {
             val createdAt = LocalDateTime.now()
-            coEvery { rankedKeywordRepository.findAllByCreatedAtAfter(any()) } returns listOf()
-            coEvery { crawlerAdapter.crawl() } returns listOf(RankedKeyword(rank = 1, keyword = "hi"))
-            coEvery { rankedKeywordRepository.saveAll(entities = any<List<RankedKeywordEntity>>()) } returns flowOf(RankedKeywordEntity(rank = 1, keyword = "hi", createdAt = createdAt))
+            coEvery { keywordRankingRepository.findAllByCreatedAtAfter(any()) } returns listOf()
+            coEvery { crawlerAdapter.crawl() } returns listOf(KeywordRanking(ranking = 1, keyword = "hi"))
+            coEvery { keywordRankingRepository.saveAll(entities = any<List<KeywordRankingEntity>>()) } returns flowOf(KeywordRankingEntity(ranking = 1, keyword = "hi", createdAt = createdAt, type = "nate"))
 
-            val keywords = service.getRankedKeywords()
+            val keywords = service.getKeywordRankings()
 
-            keywords shouldBe listOf(RankedKeywordEntity(rank = 1, keyword = "hi", createdAt = createdAt))
+            keywords shouldBe listOf(KeywordRankingEntity(ranking = 1, keyword = "hi", createdAt = createdAt, type = "nate"))
             coVerify(exactly = 1) { crawlerAdapter.crawl() }
         }
 
         it("Crawler service 호출 테스트 - 이미 크롤링 된 경우") {
             val createdAt = LocalDateTime.now()
-            coEvery { rankedKeywordRepository.findAllByCreatedAtAfter(any()) } returns listOf(RankedKeywordEntity(rank = 1, keyword = "hi", createdAt = createdAt))
+            coEvery { keywordRankingRepository.findAllByCreatedAtAfter(any()) } returns listOf(KeywordRankingEntity(ranking = 1, keyword = "hi", createdAt = createdAt, type = "nate"))
 
-            val keywords = service.getRankedKeywords()
+            val keywords = service.getKeywordRankings()
 
-            keywords shouldBe listOf(RankedKeywordEntity(rank = 1, keyword = "hi", createdAt = createdAt))
-            coVerify(exactly = 0) { rankedKeywordRepository.saveAll(any<List<RankedKeywordEntity>>()) }
+            keywords shouldBe listOf(KeywordRankingEntity(ranking = 1, keyword = "hi", createdAt = createdAt, type = "nate"))
+            coVerify(exactly = 0) { keywordRankingRepository.saveAll(any<List<KeywordRankingEntity>>()) }
             coVerify(exactly = 0) { crawlerAdapter.crawl() }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.realtimesearchserver.adapter
 
-import com.example.realtimesearchserver.entity.RankedKeyword
+import com.example.realtimesearchserver.entity.KeywordRanking
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
@@ -38,7 +38,7 @@ class CrawlerAdapterTest: DescribeSpec({
 
             it("결과 테스트") {
                 result shouldBe listOf("野 노란봉투법 본회의", "성추행 의혹 의원", "나쁜 엄마", "김남국 방지법 통과", "나는 신이다 아가동산", "누리호 발사 통신", "건축왕 전세사기 피해자", "골 때리는 그녀들", "유아인", "박성한 만루포 SSG")
-                    .mapIndexed { index, keyword -> RankedKeyword(index + 1, keyword) }
+                    .mapIndexed { index, keyword -> KeywordRanking(index + 1, keyword) }
             }
         }
     }
