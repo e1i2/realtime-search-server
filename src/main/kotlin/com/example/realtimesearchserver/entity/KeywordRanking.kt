@@ -10,7 +10,6 @@ data class KeywordRankingEntity(
     @Id
     val id: Long = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
-    @Column("`ranking`")
     val ranking: Int,
     val keyword: String,
     val type: String
