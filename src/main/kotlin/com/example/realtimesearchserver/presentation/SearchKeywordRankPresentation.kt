@@ -16,13 +16,13 @@ import reactor.core.publisher.Mono
 class SearchKeywordRankPresentation(
     private val searchKeywordRankService: SearchKeywordRankService
 ) {
-    @GetMapping("/api-public/keyword/rank")
+    @GetMapping("/api-public/realtime-search-keyword/rank")
     suspend fun getRankedKeywords(): List<KeywordRankResponse> {
         return searchKeywordRankService.getRankedKeywords()
             .map { KeywordRankResponse(it.id, it.rank, it.keyword) }
     }
 
-    @GetMapping("/api-public/keyword/redirect/naver")
+    @GetMapping("/api-public/realtime-search-keyword/redirect/naver")
     suspend fun redirect(
         @RequestParam keywordId: Long,
         @RequestHeader("X-Forwarded-For") ipAddress: String,
