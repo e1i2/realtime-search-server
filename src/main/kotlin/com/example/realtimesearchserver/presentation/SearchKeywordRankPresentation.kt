@@ -16,9 +16,10 @@ class SearchKeywordRankPresentation(
     private val searchKeywordRankingService: SearchKeywordRankingService
 ) {
     @GetMapping("/api-public/realtime-search-keyword/ranking")
-    suspend fun getKeywordRankings(): List<KeywordRankingResponse> {
-        return searchKeywordRankingService.getKeywordRankings()
+    suspend fun getKeywordRankings(): KeywordRankingListResponse {
+        val rankings = searchKeywordRankingService.getKeywordRankings()
             .map { KeywordRankingResponse(it.id, it.ranking, it.keyword, it.createdAt) }
+        return KeywordRankingListResponse(rankings)
     }
 
     @GetMapping("/api-public/realtime-search-keyword/redirect/naver")
@@ -36,6 +37,10 @@ class SearchKeywordRankPresentation(
         response.setComplete().awaitSingleOrNull()
     }
 }
+
+data class KeywordRankingListResponse(
+    val rankings: List<KeywordRankingResponse>
+)
 
 data class KeywordRankingResponse(
     val id: Long,
